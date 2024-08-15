@@ -1,12 +1,14 @@
 import { useState } from "react";
 import "./App.css";
-import Header from "./Header/header";
-import CategoryList from "./CategoryList/categoryList";
-import Loading from "./Loading/loading";
-import FastFoodList from "./FastFoodList/fastFoodList";
-import SearchBar from "./Searchbar/searchBar";
+import Header from "./components/Header/header";
+import CategoryList from "./components/CategoryList/categoryList";
+import Loading from "./components/Loading/loading";
+import FastFoodList from "./components/FastFoodList/fastFoodList";
+import SearchBar from "./components/Searchbar/searchBar";
 import notFound from "./assets/images/404.png";
-import useAxios from "./useAxios";
+import useAxios from "./hooks/useAxios";
+import UserLayout from "./layout/UserLayout";
+import { AppProvider } from "./context/CartContext";
 
 function App() {
   const [url, setUrl] = useState("/FastFood/list");
@@ -41,13 +43,14 @@ function App() {
   };
 
   return (
-    <div className="wrapper bg-faded-dark">
-      <Header></Header>
-      <CategoryList filterItems={filterItems}>
-        <SearchBar searchItems={searchItems} />
-      </CategoryList>
-      <div className="container mt-4">{renderContent()}</div>
-    </div>
+    <AppProvider>
+      <UserLayout>
+        <CategoryList filterItems={filterItems}>
+          <SearchBar searchItems={searchItems} />
+        </CategoryList>
+        <div className="container mt-4">{renderContent()}</div>
+      </UserLayout>
+    </AppProvider>
   );
 }
 
